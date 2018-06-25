@@ -9,12 +9,15 @@ import {
 type Props = {};
 export default class Row extends Component<Props> {
   render() {
+    const { complete } = this.props;
     return (
       <View style={styles.container}>
         <Switch
           value={this.props.complete}
         />
-        <Text style={styles.text}>{this.props.text}</Text>
+        <View style={styles.textWrap}>
+          <Text style={[styles.text, complete && styles.complete]}>{this.props.text}</Text>
+        </View>
       </View>
     );
   }
@@ -27,8 +30,15 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between",
   },
+  textWrap: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
   text: {
-    fontSize: 18,
+    fontSize: 24,
     color: '#4d4d4d'
-  }
+  },
+  complete: {
+    textDecorationLine: "line-through"
+  },
 });
