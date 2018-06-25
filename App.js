@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
   View,
-  SafeAreaView
+  SafeAreaView,
+  ListView,
+  Keyboard
 } from 'react-native';
 import Header from './header';
 import Footer from './footer';
@@ -14,12 +15,14 @@ type Props = {};
 export default class App extends Component<Props> {
   constructor(props){
     super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       allComplete: false,
       value: "",
       items: [],
+      dataSource: ds.cloneWithRows([])
     };
-    this.handleAddItem = this.handleAddItem.bind(this)
+    this.handleAddItem = this.handleAddItem.bind(this);
     this.handleToggleAllComplete = this.handleToggleAllComplete.bind(this)
   }
   handleToggleAllComplete() {
