@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {
-  Platform,
+  Switch,
   StyleSheet,
   Text,
   View,
-  SafeAreaView
 } from 'react-native';
 
 type Props = {};
@@ -12,6 +11,9 @@ export default class Row extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
+        <Switch
+          value={this.props.complete}
+        />
         <Text style={styles.text}>{this.props.text}</Text>
       </View>
     );
