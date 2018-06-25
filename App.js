@@ -17,7 +17,7 @@ export default class App extends Component<Props> {
     this.state = {
       value: "",
       items: [],
-    }
+    };
     this.handleAddItem = this.handleAddItem.bind(this)
   }
   handleAddItem() {
@@ -29,7 +29,7 @@ export default class App extends Component<Props> {
         text: this.state.value,
         complete: false
       }
-    ]
+    ];
     this.setState({
       items: newItems,
       value: ""
