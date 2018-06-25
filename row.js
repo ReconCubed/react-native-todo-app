@@ -10,7 +10,11 @@ import {
 type Props = {};
 export default class Row extends Component<Props> {
   render() {
-    return (<View />);
+    return (
+      <View>
+        <Text>{this.props.text}</Text>
+      </View>
+    );
   }
 }
 

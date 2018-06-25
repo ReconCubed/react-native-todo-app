@@ -1,19 +1,11 @@
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ListView,
-  Keyboard
-} from 'react-native';
-import Header from './header';
-import Footer from './footer';
-import Row from './row';
+import React, { Component } from "react";
+import { View, Text, StyleSheet, Platform, ListView, Keyboard } from "react-native";
+import Header from "./header";
+import Footer from "./footer";
+import Row from "./row";
 
-type Props = {};
-export default class App extends Component<Props> {
-  constructor(props){
+export default class App extends Component {
+  constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
@@ -22,8 +14,16 @@ export default class App extends Component<Props> {
       items: [],
       dataSource: ds.cloneWithRows([])
     };
+    this.setSource = this.setSource.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
-    this.handleToggleAllComplete = this.handleToggleAllComplete.bind(this)
+    this.handleToggleAllComplete = this.handleToggleAllComplete.bind(this);
+  }
+  setSource(items, itemsDatasource, otherState = {}) {
+    this.setState({
+      items,
+      dataSource: this.state.dataSource.cloneWithRows(itemsDatasource),
+      ...otherState
+    })
   }
   handleToggleAllComplete() {
     const complete = !this.state.allComplete;
@@ -31,14 +31,10 @@ export default class App extends Component<Props> {
       ...item,
       complete
     }));
-    this.setState({
-      items: newItems,
-      allComplete: complete
-    })
+    this.setSource(newItems, newItems, { allComplete: complete })
   }
-
   handleAddItem() {
-    if(!this.state.value) return;
+    if (!this.state.value) return;
     const newItems = [
       ...this.state.items,
       {
@@ -47,30 +43,25 @@ export default class App extends Component<Props> {
         complete: false
       }
     ];
-    this.setState({
-      items: newItems,
-      value: ""
-    })
+    this.setSource(newItems, newItems, { value: "" })
   }
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-
+      <View style={styles.container}>
         <Header
-        value={this.state.value}
-        onAddItem={this.handleAddItem}
-        onChange={(value) => this.setState({ value })}
-        onToggleAllComplete={this.handleToggleAllComplete}
+          value={this.state.value}
+          onAddItem={this.handleAddItem}
+          onChange={(value) => this.setState({ value })}
+          onToggleAllComplete={this.handleToggleAllComplete}
         />
-
         <View style={styles.content}>
           <ListView
             style={styles.list}
             enableEmptySections
             dataSource={this.state.dataSource}
             onScroll={() => Keyboard.dismiss()}
-            rendowRow={(key, ...value) => {
-              return(
+            renderRow={({ key, ...value}) => {
+              return (
                 <Row
                   key={key}
                   {...value}
@@ -78,14 +69,12 @@ export default class App extends Component<Props> {
               )
             }}
             renderSeparator={(sectionId, rowId) => {
-              return <View key={rowID} styles={style.separator} />
+              return <View key={rowId} style={styles.separator}/>
             }}
           />
         </View>
-
         <Footer />
-
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -93,21 +82,19 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: "#F5F5F5",
     ...Platform.select({
-      ios: {
-        paddingTop: 30
-      }
+      ios: { paddingTop: 30 }
     })
   },
   content: {
-    flex: 1,
+    flex: 1
   },
   list: {
     backgroundColor: '#FFF'
   },
-  seperator: {
+  separator: {
     borderWidth: 1,
-    borderColor: '#F5F5F5'
+    borderColor: "#F5F5F5"
   }
 });
