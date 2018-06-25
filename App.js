@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Header from './header';
 import Footer from './footer';
-
+import Row from './row';
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -64,6 +64,23 @@ export default class App extends Component<Props> {
         />
 
         <View style={styles.content}>
+          <ListView
+            style={styles.list}
+            enableEmptySections
+            dataSource={this.state.dataSource}
+            onScroll={() => Keyboard.dismiss()}
+            rendowRow={(key, ...value) => {
+              return(
+                <Row
+                  key={key}
+                  {...value}
+                />
+              )
+            }}
+            renderSeparator={(sectionId, rowId) => {
+              return <View key={rowID} styles={style.separator} />
+            }}
+          />
         </View>
 
         <Footer />
@@ -86,4 +103,11 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  list: {
+    backgroundColor: '#FFF'
+  },
+  seperator: {
+    borderWidth: 1,
+    borderColor: '#F5F5F5'
+  }
 });
