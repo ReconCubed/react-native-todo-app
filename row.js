@@ -14,6 +14,7 @@ export default class Row extends Component<Props> {
       <View style={styles.container}>
         <Switch
           value={this.props.complete}
+          onValueChange={this.props.onComplete}
         />
         <View style={styles.textWrap}>
           <Text style={[styles.text, complete && styles.complete]}>{this.props.text}</Text>
