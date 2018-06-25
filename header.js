@@ -12,10 +12,13 @@ export default class Header extends Component<Props> {
     return (
       <View style={styles.header}>
         <TextInput
-        placeholder={"What needs to be done?"}
-        blurOnSubmit={false}
-        returnKeyType={"done"}
-        style={styles.input}
+          value={this.props.value}
+          onChangeText={this.props.onChange}
+          onSubmitEditing={this.props.onAddItem}
+          placeholder={"What needs to be done?"}
+          blurOnSubmit={false}
+          returnKeyType={"done"}
+          style={styles.input}
         />
       </View>
     );
